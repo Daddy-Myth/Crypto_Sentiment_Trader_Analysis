@@ -1,6 +1,24 @@
 # Crypto_Sentiment_Trader_Analysis
 
-Analyzing the relationship between Bitcoin Fear & Greed sentiment and trader performance on Hyperliquid — uncovering patterns across 211K trades, 32 traders, and 2 years of market data.
+> Analyzing how Bitcoin market sentiment (Fear & Greed) influences trader behavior and profitability on Hyperliquid — across 211K trades, 32 wallets, and 2 years of on-chain data.
+
+---
+
+## Problem Statement
+
+Does market sentiment measurably affect trading outcomes? This analysis tests whether traders on Hyperliquid perform differently during periods of Fear vs Greed — and whether sentiment can be used as a signal to time entries, exits, and asset selection.
+
+---
+
+## Hypotheses
+
+| # | Hypothesis | Result |
+|---|---|---|
+| H1 | Traders perform better during Greed than Fear | Partially true — Extreme Greed has highest avg PnL, but driven by SELL side |
+| H2 | Buying during Extreme Fear is a contrarian edge | Partially supported (low consistency) — 20.2% win rate, low conviction signal |
+| H3 | Consistent high win-rate traders are rare | Confirmed — only 3 of 32 traders exceed 50% win rate |
+| H4 | Sentiment streak length affects trade outcomes | 7-day streaks produce peak avg PnL of $155.76 |
+| H5 | Coin sensitivity to sentiment varies significantly | ETH thrives on Fear, SOL on Greed, FARTCOIN bleeds on Extreme Fear |
 
 ---
 
@@ -17,14 +35,14 @@ Analyzing the relationship between Bitcoin Fear & Greed sentiment and trader per
 
 ## Key Findings
 
-### 📊 Overall Performance
+### Overall Performance
 - **Total Realized PnL:** $10,296,958
 - **Overall Win Rate:** 41.1%
 - The low win rate vs high total PnL reveals an **asymmetric strategy** — traders win rarely but win big
 
 ---
 
-### 😱 Sentiment vs Performance
+### Sentiment vs Performance
 
 ![Trade Count and Avg PnL by Sentiment](Assets/g2.png)
 
@@ -36,11 +54,11 @@ Analyzing the relationship between Bitcoin Fear & Greed sentiment and trader per
 | Greed | 50,303 | $42.74 | 38.5% |
 | **Extreme Greed** | 39,992 | **$67.89** | **46.5%** |
 
-> **Extreme Greed** produces the highest avg PnL and win rate — market euphoria is the most profitable environment.
+> **Extreme Greed** shows the highest avg PnL — but this is driven almost entirely by the **SELL side ($114.58 avg)**, not buying. Traders who close longs and short into euphoria capture the bulk of profits during this regime.
 
 ---
 
-### 📈 BUY vs SELL by Sentiment
+###  BUY vs SELL by Sentiment
 
 ![BUY vs SELL by Sentiment](Assets/g6.png)
 
@@ -50,7 +68,7 @@ Analyzing the relationship between Bitcoin Fear & Greed sentiment and trader per
 
 ---
 
-### 🏆 Trader Leaderboard
+###  Trader Leaderboard
 
 ![Top 15 Traders Heatmap](Assets/g3.png)
 
@@ -66,7 +84,7 @@ Analyzing the relationship between Bitcoin Fear & Greed sentiment and trader per
 
 ---
 
-### ⏳ Sentiment Streak Effect
+### Sentiment Streak Effect
 
 ![Avg PnL by Streak Length](Assets/g4.png)
 
@@ -76,7 +94,7 @@ Analyzing the relationship between Bitcoin Fear & Greed sentiment and trader per
 
 ---
 
-### 🪙 Coin Performance by Sentiment
+###  Coin Performance by Sentiment
 
 ![Coin Sentiment Heatmap](Assets/g1.png)
 
@@ -86,25 +104,42 @@ Analyzing the relationship between Bitcoin Fear & Greed sentiment and trader per
 | SOL | Greed | $284.8 | Extreme Fear (+$56) |
 | MELANIA | Extreme Fear | $218.3 | Extreme Greed (-$70.4) |
 | BTC | Fear | $48.9 | Stable across all |
-| FARTCOIN | — | — | Extreme Fear (-$244.3) ⚠️ |
+| FARTCOIN | — | — | Extreme Fear (-$244.3 |
 
 ---
 
 ## Strategy Signals
 
-| Signal | Avg PnL | Win Rate | Verdict |
+> These signals are derived from aggregate patterns across 2 years of data. They are directional rules, not guarantees — position sizing and risk management still apply.
+
+| Signal | Avg PnL | Win Rate | Rule |
 |---|---|---|---|
-| Buy on Extreme Fear | $34.11 | 20.2% | High risk contrarian play |
-| Buy on Extreme Greed | $10.50 | 31.1% | ❌ Worst setup |
-| **Sell on Extreme Greed** | **$114.58** | — | ✅ Strongest edge |
-| **7-Day Streak Entry** | **$155.76** | — | ✅ Strong timing signal |
+| Buy on Extreme Fear | $34.11 | 20.2% | Small size only — low hit rate, occasional large payoff |
+| Buy on Extreme Greed | $10.50 | 31.1% |  Avoid — worst risk/reward setup in the dataset |
+| **Sell / Short on Extreme Greed** | **$114.58** | — | Primary edge — close longs, consider shorts |
+| **Enter on Day 7 of a Streak** | **$155.76** | — | Timing filter — wait for sentiment conviction to build |
+| Trade ETH/MELANIA on Fear days | $196–237 | — | Sentiment-specific asset rotation |
+| Trade SOL on Greed days | $284.8 | — | Momentum asset, thrives in risk-on conditions |
+
+---
+
+## Limitations
+
+- **32 traders is a small sample** — patterns may not generalize to the broader Hyperliquid user base
+- **Closed PnL only** — open/unrealized positions are excluded; some trader performance may be understated or overstated
+- **Correlation ≠ causation** — sentiment co-occurs with price action; it's hard to isolate sentiment as the independent variable
+- **Streak analysis is exploratory** — the 7-day signal has limited data points at higher streak lengths and needs forward testing
+- **No leverage normalization** — high PnL traders may simply be using more leverage, not better strategy
 
 ---
 
 ## Tools Used
-- Python, Pandas, NumPy
-- Matplotlib, Seaborn
-- Jupyter Notebook
+
+| Tool | Purpose |
+|---|---|
+| Python + Pandas + NumPy | Data cleaning, merging, feature engineering |
+| Matplotlib + Seaborn | Visualizations and heatmaps |
+| Jupyter Notebook | Analysis environment |
 
 ---
 
